@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
-import 'package:vans/screens/chat.dart';
-import 'package:vans/screens/tickets.dart';
-import 'package:vans/screens/search.dart';
 
 class BottomMenu extends StatelessWidget {
   final int currentIndex;
@@ -16,36 +13,6 @@ class BottomMenu extends StatelessWidget {
 
   void _handleMenuTap(BuildContext context, int index) {
     onItemSelected(index);
-
-    if (index == 0) {
-      // Buscar
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SearchScreen()),
-        );
-      });
-    } else if (index == 2) {
-      // Conversas
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatScreen()),
-        );
-      });
-    } else if (index == 1) {
-      // Passagens
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const TicketsScreen()),
-        );
-      });
-    } else if (index == 3) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tela de Menu em desenvolvimento')),
-      );
-    }
   }
 
   @override
@@ -135,5 +102,3 @@ class _MenuItem extends StatelessWidget {
     );
   }
 }
-
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
-import 'package:vans/screens/search.dart';
+import 'package:vans/routes/app_routes.dart';
 import 'package:vans/screens/register.dart';
 import 'package:vans/screens/forgot_password.dart';
 
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                    const RegisterScreen(),
+                                        const RegisterScreen(),
                                   ),
                                 );
                               },
@@ -264,11 +264,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ConfirmationButton(
                         label: 'Entrar',
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacementNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchScreen(),
-                            ),
+                            AppRoutes.home,
                           );
                         },
                       ),
@@ -282,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                const ForgotPasswordScreen(),
+                                    const ForgotPasswordScreen(),
                               ),
                             );
                           },
