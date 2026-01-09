@@ -21,7 +21,10 @@ class _PrivateChatState extends State<PrivateChat> {
   @override
   void initState() {
     super.initState();
-    _initChat();
+    // Usa addPostFrameCallback para evitar chamar notifyListeners durante o build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initChat();
+    });
   }
 
   Future<void> _initChat() async {

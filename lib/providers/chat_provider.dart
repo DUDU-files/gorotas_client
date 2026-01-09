@@ -110,6 +110,24 @@ class ChatProvider with ChangeNotifier {
   /// Marca mensagens como lidas
   Future<void> markAsRead(String chatId, String readerId) async {
     await _chatService.markMessagesAsRead(chatId, readerId);
+
+    // Atualiza localmente também para refletir imediatamente
+    final index = _chats.indexWhere((c) => c.id == chatId);
+    if (index != -1) {
+      _chats[index] = ChatModel(
+        id: _chats[index].id,
+        clientId: _chats[index].clientId,
+        driverId: _chats[index].driverId,
+        driverName: _chats[index].driverName,
+        driverPhoto: _chats[index].driverPhoto,
+        lastMessage: _chats[index].lastMessage,
+        lastMessageTime: _chats[index].lastMessageTime,
+        unreadCount: 0, // Reset para 0
+        isPinned: _chats[index].isPinned,
+        createdAt: _chats[index].createdAt,
+      );
+      notifyListeners();
+    }
   }
 
   /// Deleta uma conversa
