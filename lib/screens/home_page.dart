@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/widgets/bottom_menu.dart';
+import 'package:vans/widgets/app_header.dart';
 import 'package:vans/screens/contents/search_content.dart';
 import 'package:vans/screens/contents/tickets_content.dart';
 import 'package:vans/screens/contents/chat_content.dart';
@@ -56,60 +57,10 @@ class HomePage extends StatelessWidget {
     BuildContext context,
     NavigationProvider navProvider,
   ) {
-    return AppBar(
-      backgroundColor: AppColors.primaryBlue,
-      elevation: 0,
-      leading: navProvider.showBackButton
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => navProvider.goBack(),
-            )
-          : null,
-      title: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 40,
-                height: 40,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    Icons.directions_bus,
-                    size: 28,
-                    color: AppColors.primaryBlue,
-                  );
-                },
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              navProvider.headerTitle,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.white,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.notifications_outlined),
-          onPressed: () {},
-        ),
-      ],
+    return AppHeader(
+      title: navProvider.headerTitle,
+      showBackButton: navProvider.showBackButton,
+      onBackPressed: () => navProvider.goBack(),
     );
   }
 
