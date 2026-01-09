@@ -84,11 +84,19 @@ class ChatService {
       final docRef = await _messagesCollection.add(messageData);
 
       // Atualiza o último mensagem do chat
-      await _chatsCollection.doc(chatId).update({
-        'lastMessage': message,
-        'lastMessageTime': FieldValue.serverTimestamp(),
-        'unreadCount': FieldValue.increment(1),
-      });
+      // Só incrementa unreadCount se for mensagem do motorista (para o cliente ver)
+      if (senderType == 'driver') {
+        await _chatsCollection.doc(chatId).update({
+          'lastMessage': message,
+          'lastMessageTime': FieldValue.serverTimestamp(),
+          'unreadCount': FieldValue.increment(1),
+        });
+      } else {
+        await _chatsCollection.doc(chatId).update({
+          'lastMessage': message,
+          'lastMessageTime': FieldValue.serverTimestamp(),
+        });
+      }
 
       return MessageModel(
         id: docRef.id,

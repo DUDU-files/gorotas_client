@@ -14,6 +14,18 @@ class RouteProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
 
+  // Normaliza string removendo acentos para comparação
+  String _normalizeString(String text) {
+    const accents = 'àáâãäåèéêëìíîïòóôõöùúûüçñÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÇÑ';
+    const normal = 'aaaaaaeeeeiiiiooooouuuucnAAAAAAEEEEIIIIOOOOOUUUUCN';
+
+    String normalized = text.toLowerCase();
+    for (int i = 0; i < accents.length; i++) {
+      normalized = normalized.replaceAll(accents[i], normal[i]);
+    }
+    return normalized;
+  }
+
   // Filtros atuais
   String? _currentOrigin;
   String? _currentDestination;
@@ -104,14 +116,14 @@ class RouteProvider extends ChangeNotifier {
         bool matchDate = true;
 
         if (origin != null && origin.isNotEmpty) {
-          matchOrigin = route.origin.toLowerCase().contains(
-            origin.toLowerCase(),
-          );
+          matchOrigin = _normalizeString(
+            route.origin,
+          ).contains(_normalizeString(origin));
         }
         if (destination != null && destination.isNotEmpty) {
-          matchDestination = route.destination.toLowerCase().contains(
-            destination.toLowerCase(),
-          );
+          matchDestination = _normalizeString(
+            route.destination,
+          ).contains(_normalizeString(destination));
         }
 
         // Filtrar por data/dia da semana

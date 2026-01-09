@@ -22,100 +22,105 @@ class _ResultsState extends State<Results> {
   Widget build(BuildContext context) {
     return Consumer<RouteProvider>(
       builder: (context, routeProvider, child) {
-        if (routeProvider.isLoading) {
-          return const LoadingIndicator();
-        }
-
-        if (routeProvider.error != null) {
-          return EmptyState(
-            icon: Icons.error_outline,
-            title: 'Erro ao carregar viagens',
-            subtitle: routeProvider.error,
-            onRetry: () => routeProvider.loadRoutes(),
-          );
-        }
-
-        if (routeProvider.routes.isEmpty) {
-          return const EmptyState(
-            icon: Icons.directions_bus_outlined,
-            title: 'Nenhuma viagem disponível',
-            subtitle: 'Tente buscar por outra rota',
-          );
-        }
-
         return Stack(
           children: [
-            ListView.builder(
-              padding: const EdgeInsets.only(top: 16, bottom: 80),
-              itemCount: routeProvider.routes.length,
-              itemBuilder: (context, index) {
-                final route = routeProvider.routes[index];
-                final vehicleType = routeProvider.getVehicleType(route);
-                final vehicleName = routeProvider.getVehicleName(route);
-                final driverName = routeProvider.getDriverName(route);
-                final driverId = routeProvider.getDriverId(route);
-                final rating = routeProvider.getRouteRating(route);
-
-                // Se há uma data específica pesquisada, mostra só ela
-                // Caso contrário, mostra as próximas datas disponíveis
-                final selectedDate = routeProvider.selectedDate;
-                List<String> availableDates;
-                String displayDate;
-
-                if (selectedDate != null) {
-                  // Mostra apenas a data pesquisada
-                  displayDate =
-                      '${selectedDate.day.toString().padLeft(2, '0')}/${selectedDate.month.toString().padLeft(2, '0')}';
-                  availableDates = [displayDate];
-                } else {
-                  // Mostra as próximas datas disponíveis
-                  availableDates = route.getNextAvailableDatesFormatted(
-                    count: 5,
-                  );
-                  displayDate = availableDates.isNotEmpty
-                      ? availableDates.first
-                      : 'Diário';
-                }
-
-                return PassageCard(
-                  origin: route.origin,
-                  destination: route.destination,
-                  type: vehicleType,
-                  price: route.price,
-                  date: displayDate,
-                  availableSeats: route.availableSeats,
-                  duration: route.duration,
-                  departureTime: route.departureTime,
-                  availableTimes: route.timeSlots,
-                  availableDates: availableDates,
-                  rating: rating,
-                  onMoreInfo: () => _showDetails(
-                    route,
-                    vehicleType,
-                    vehicleName,
-                    driverName,
-                    driverId,
-                  ),
-                  onBuyTicket: () => _buyTicket(
-                    route,
-                    vehicleType,
-                    driverName,
-                    driverId,
-                    route.departureTime,
-                  ),
-                );
-              },
-            ),
-            Positioned(
-              right: 16,
-              bottom: 80,
-              child: FloatingActionButton(
-                backgroundColor: AppColors.primaryOrange,
-                onPressed: () => _showFilters(context),
-                child: const Icon(Icons.tune, color: AppColors.white),
+            // Conteúdo principal
+            _buildContent(routeProvider),
+            // Botão de filtro sempre visível (exceto durante loading)
+            if (!routeProvider.isLoading)
+              Positioned(
+                right: 16,
+                bottom: 80,
+                child: FloatingActionButton(
+                  backgroundColor: AppColors.primaryOrange,
+                  onPressed: () => _showFilters(context),
+                  child: const Icon(Icons.tune, color: AppColors.white),
+                ),
               ),
-            ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildContent(RouteProvider routeProvider) {
+    if (routeProvider.isLoading) {
+      return const LoadingIndicator();
+    }
+
+    if (routeProvider.error != null) {
+      return EmptyState(
+        icon: Icons.error_outline,
+        title: 'Erro ao carregar viagens',
+        subtitle: routeProvider.error,
+        onRetry: () => routeProvider.loadRoutes(),
+      );
+    }
+
+    if (routeProvider.routes.isEmpty) {
+      return const EmptyState(
+        icon: Icons.directions_bus_outlined,
+        title: 'Nenhuma viagem disponível',
+        subtitle: 'Tente buscar por outra rota',
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 16, bottom: 80),
+      itemCount: routeProvider.routes.length,
+      itemBuilder: (context, index) {
+        final route = routeProvider.routes[index];
+        final vehicleType = routeProvider.getVehicleType(route);
+        final vehicleName = routeProvider.getVehicleName(route);
+        final driverName = routeProvider.getDriverName(route);
+        final driverId = routeProvider.getDriverId(route);
+        final rating = routeProvider.getRouteRating(route);
+
+        // Se há uma data específica pesquisada, mostra só ela
+        // Caso contrário, mostra as próximas datas disponíveis
+        final selectedDate = routeProvider.selectedDate;
+        List<String> availableDates;
+        String displayDate;
+
+        if (selectedDate != null) {
+          // Mostra apenas a data pesquisada
+          displayDate =
+              '${selectedDate.day.toString().padLeft(2, '0')}/${selectedDate.month.toString().padLeft(2, '0')}';
+          availableDates = [displayDate];
+        } else {
+          // Mostra as próximas datas disponíveis
+          availableDates = route.getNextAvailableDatesFormatted(count: 5);
+          displayDate = availableDates.isNotEmpty
+              ? availableDates.first
+              : 'Diário';
+        }
+
+        return PassageCard(
+          origin: route.origin,
+          destination: route.destination,
+          type: vehicleType,
+          price: route.price,
+          date: displayDate,
+          availableSeats: route.availableSeats,
+          duration: route.duration,
+          departureTime: route.departureTime,
+          availableTimes: route.timeSlots,
+          availableDates: availableDates,
+          rating: rating,
+          onMoreInfo: () => _showDetails(
+            route,
+            vehicleType,
+            vehicleName,
+            driverName,
+            driverId,
+          ),
+          onBuyTicket: () => _buyTicket(
+            route,
+            vehicleType,
+            driverName,
+            driverId,
+            route.departureTime,
+          ),
         );
       },
     );
