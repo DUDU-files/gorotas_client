@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vans/models/route_model.dart';
-import 'package:vans/models/driver_model.dart';
-import 'package:vans/models/vehicle_model.dart';
-import 'package:vans/services/route_service.dart';
-import 'package:vans/services/ticket_service.dart';
+import 'package:vans/exports.dart';
 
 class RouteProvider extends ChangeNotifier {
   final RouteService _routeService = RouteService();

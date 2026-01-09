@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/login.dart';
-import '../screens/register.dart';
-import '../screens/forgot_password.dart';
-import '../screens/home_page.dart';
-import '../screens/add_card.dart';
-import '../screens/add_pix.dart';
-import '../screens/profile.dart';
+import 'package:vans/exports.dart';
 
 class AppRoutes {
   static const String login = '/';

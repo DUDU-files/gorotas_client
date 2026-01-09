@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/providers/route_provider.dart';
+import 'package:vans/exports.dart';
 
 class FiltersModal extends StatefulWidget {
   const FiltersModal({super.key});

@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/providers/navigation_provider.dart';
-import 'package:vans/widgets/navbar.dart';
-import 'package:vans/widgets/app_header.dart';
-import 'package:vans/screens/search.dart';
-import 'package:vans/screens/tickets.dart';
-import 'package:vans/screens/chat.dart';
-import 'package:vans/screens/menu.dart';
-import 'package:vans/screens/results.dart';
-import 'package:vans/screens/passage_details.dart';
-import 'package:vans/screens/payment.dart';
-import 'package:vans/screens/receipt.dart';
-import 'package:vans/screens/rating.dart';
-import 'package:vans/screens/private_chat.dart';
-import 'package:vans/screens/profile_edit.dart';
+import 'package:vans/exports.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

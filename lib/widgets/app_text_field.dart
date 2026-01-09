@@ -54,11 +54,15 @@ class AppTextField extends StatelessWidget {
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     border: OutlineInputBorder(
       borderRadius: _borderRadius,
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: AppColors.lightGray),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: _borderRadius,
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: AppColors.lightGray),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(color: AppColors.lightGray),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: _borderRadius,

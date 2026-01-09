@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vans/models/ticket_model.dart';
-import 'package:vans/services/ticket_service.dart';
+import 'package:vans/exports.dart';
 
 class TicketProvider extends ChangeNotifier {
   final TicketService _ticketService = TicketService();

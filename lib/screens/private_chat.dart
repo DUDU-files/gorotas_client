@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/models/chat_model.dart';
-import 'package:vans/providers/chat_provider.dart';
-import 'package:vans/providers/user_provider.dart';
+import 'package:vans/exports.dart';
 
 class PrivateChat extends StatefulWidget {
   final Map<String, dynamic> data;

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/widgets/trip_card.dart';
-import 'package:vans/widgets/app_card.dart';
-import 'package:vans/providers/navigation_provider.dart';
-import 'package:vans/providers/ticket_provider.dart';
-import 'package:vans/providers/user_provider.dart';
+import 'package:vans/exports.dart';
 
 class Tickets extends StatefulWidget {
   const Tickets({super.key});

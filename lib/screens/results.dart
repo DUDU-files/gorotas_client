@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/widgets/passage_card.dart';
-import 'package:vans/widgets/filter.dart';
-import 'package:vans/widgets/app_card.dart';
-import 'package:vans/providers/navigation_provider.dart';
-import 'package:vans/providers/route_provider.dart';
+import 'package:vans/exports.dart';
 
 class Results extends StatefulWidget {
   const Results({super.key});
