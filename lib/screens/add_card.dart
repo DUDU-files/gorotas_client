@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/widgets/app_text_field.dart';
-import 'package:vans/widgets/confirmation_button.dart';
+import 'package:vans/exports.dart';
 
 class AddCardScreen extends StatefulWidget {
   const AddCardScreen({super.key});

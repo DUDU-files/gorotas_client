@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/chat_model.dart';
-import '../services/chat_service.dart';
+import 'package:vans/exports.dart';
 
 class ChatProvider with ChangeNotifier {
   final ChatService _chatService = ChatService();

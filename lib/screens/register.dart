@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vans/colors/app_colors.dart';
-import 'package:vans/widgets/app_text_field.dart';
-import 'package:vans/widgets/app_logo.dart';
-import 'package:vans/widgets/confirmation_button.dart';
-import 'package:vans/widgets/success_modal.dart';
-import 'package:vans/screens/login.dart';
-import 'package:vans/providers/user_provider.dart';
+import 'package:vans/exports.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

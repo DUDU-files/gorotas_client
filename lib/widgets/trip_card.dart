@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vans/colors/app_colors.dart';
+import 'package:vans/exports.dart';
 
 class TripCard extends StatelessWidget {
   final String type;
