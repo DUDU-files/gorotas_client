@@ -106,10 +106,7 @@ class UserProvider extends ChangeNotifier {
     required String name,
     required String phone,
   }) async {
-    await _authService.updateUserProfile(
-      name: name,
-      phone: phone,
-    );
+    await _authService.updateUserProfile(name: name, phone: phone);
     await _loadUserData();
   }
 }
