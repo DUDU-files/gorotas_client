@@ -4,8 +4,8 @@ import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/user_provider.dart';
 import 'package:vans/providers/navigation_provider.dart';
 
-class MenuContent extends StatelessWidget {
-  const MenuContent({super.key});
+class Menu extends StatelessWidget {
+  const Menu({super.key});
 
   @override
   Widget build(BuildContext context) {

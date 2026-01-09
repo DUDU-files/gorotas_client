@@ -7,14 +7,14 @@ import 'package:vans/widgets/app_card.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/route_provider.dart';
 
-class ResultsContent extends StatefulWidget {
-  const ResultsContent({super.key});
+class Results extends StatefulWidget {
+  const Results({super.key});
 
   @override
-  State<ResultsContent> createState() => _ResultsContentState();
+  State<Results> createState() => _ResultsState();
 }
 
-class _ResultsContentState extends State<ResultsContent> {
+class _ResultsState extends State<Results> {
   @override
   void initState() {
     super.initState();

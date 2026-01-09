@@ -4,10 +4,10 @@ import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/providers/navigation_provider.dart';
 
-class ReceiptContent extends StatelessWidget {
+class Receipt extends StatelessWidget {
   final Map<String, dynamic> data;
 
-  const ReceiptContent({super.key, required this.data});
+  const Receipt({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

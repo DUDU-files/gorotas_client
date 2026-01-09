@@ -7,14 +7,14 @@ import 'package:vans/providers/chat_provider.dart';
 import 'package:vans/providers/user_provider.dart';
 import 'package:vans/models/chat_model.dart';
 
-class ChatContent extends StatefulWidget {
-  const ChatContent({super.key});
+class Chat extends StatefulWidget {
+  const Chat({super.key});
 
   @override
-  State<ChatContent> createState() => _ChatContentState();
+  State<Chat> createState() => _ChatState();
 }
 
-class _ChatContentState extends State<ChatContent> {
+class _ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();

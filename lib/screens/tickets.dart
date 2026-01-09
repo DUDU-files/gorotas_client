@@ -7,14 +7,14 @@ import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/ticket_provider.dart';
 import 'package:vans/providers/user_provider.dart';
 
-class TicketsContent extends StatefulWidget {
-  const TicketsContent({super.key});
+class Tickets extends StatefulWidget {
+  const Tickets({super.key});
 
   @override
-  State<TicketsContent> createState() => _TicketsContentState();
+  State<Tickets> createState() => _TicketsState();
 }
 
-class _TicketsContentState extends State<TicketsContent> {
+class _TicketsState extends State<Tickets> {
   @override
   void initState() {
     super.initState();
