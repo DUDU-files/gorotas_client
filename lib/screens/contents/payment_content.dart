@@ -5,6 +5,9 @@ import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/screens/add_card.dart';
 import 'package:vans/screens/add_pix.dart';
 import 'package:vans/providers/navigation_provider.dart';
+import 'package:vans/providers/ticket_provider.dart';
+import 'package:vans/providers/user_provider.dart';
+import 'package:intl/intl.dart';
 
 class PaymentContent extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -16,12 +19,75 @@ class PaymentContent extends StatefulWidget {
 }
 
 class _PaymentContentState extends State<PaymentContent> {
-  double _walletBalance = 2000.00;
+  final double _walletBalance = 2000.00;
   bool _useWallet = false;
+  bool _isProcessing = false;
 
   double get ticketPrice => (widget.data['ticketPrice'] ?? 0.0).toDouble();
+  String get origin => widget.data['origin'] ?? '';
+  String get destination => widget.data['destination'] ?? '';
+  String get routeId => widget.data['routeId'] ?? '';
+  String get vehicleType => widget.data['vehicleType'] ?? 'Veículo';
+  String get driverName => widget.data['driverName'] ?? 'Motorista';
+  String get driverId => widget.data['driverId'] ?? '';
+  String get departureTime => widget.data['departureTime'] ?? '07:00';
 
-  void _showSuccessModal(BuildContext context) {
+  Future<void> _processPayment() async {
+    if (_isProcessing) return;
+
+    setState(() => _isProcessing = true);
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+
+    if (userProvider.userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro: Usuário não autenticado')),
+      );
+      setState(() => _isProcessing = false);
+      return;
+    }
+
+    // Data atual formatada
+    final now = DateTime.now();
+    final dateFormatted = DateFormat('dd/MM/yyyy').format(now);
+
+    // Gerar número do assento aleatório
+    final seatNumber = '${(now.millisecond % 20) + 1}A';
+
+    // Criar ticket no Firebase
+    final ticket = await ticketProvider.buyTicket(
+      routeId: routeId,
+      clientId: userProvider.userId!,
+      origin: origin,
+      destination: destination,
+      vehicleType: vehicleType,
+      price: ticketPrice,
+      date: dateFormatted,
+      time: departureTime,
+      driverName: driverName,
+      driverId: driverId,
+      seatNumber: seatNumber,
+    );
+
+    setState(() => _isProcessing = false);
+
+    if (ticket != null) {
+      _showSuccessModal(context, ticket.id, dateFormatted, seatNumber);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao processar pagamento')),
+      );
+    }
+  }
+
+  void _showSuccessModal(
+    BuildContext context,
+    String ticketId,
+    String date,
+    String seatNumber,
+  ) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -83,18 +149,50 @@ class _PaymentContentState extends State<PaymentContent> {
                   navProvider.navigateTo(
                     AppScreen.receipt,
                     data: {
-                      'origin': 'Caxias',
-                      'destination': 'Teresina',
-                      'type': 'Van',
+                      'origin': origin,
+                      'destination': destination,
+                      'type': vehicleType,
                       'price': ticketPrice,
-                      'date': '04/10/2025',
-                      'time': '07:00',
-                      'passengerName': 'João Silva Santos',
-                      'passengerId': '123.456.789-00',
-                      'seatNumber': '12A',
+                      'date': date,
+                      'time': departureTime,
+                      'passengerName': userProvider.userName ?? 'Cliente',
+                      'passengerId': userProvider.userId ?? '',
+                      'seatNumber': seatNumber,
+                      'driverName': driverName,
+                      'ticketId': ticketId,
                     },
                   );
                 },
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Botão Ir para Minhas Viagens
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  final navProvider = Provider.of<NavigationProvider>(
+                    context,
+                    listen: false,
+                  );
+                  navProvider.navigateTo(AppScreen.tickets);
+                },
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppColors.primaryBlue),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Ver Minhas Viagens',
+                  style: TextStyle(
+                    color: AppColors.primaryBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -319,20 +417,26 @@ class _PaymentContentState extends State<PaymentContent> {
             // Botão de Pagar
             SizedBox(
               width: double.infinity,
-              child: ConfirmationButton(
-                label: 'Finalizar Pagamento',
-                onPressed: () {
-                  if (_useWallet) {
-                    _showSuccessModal(context);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Selecione um método de pagamento'),
+              child: _isProcessing
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryOrange,
                       ),
-                    );
-                  }
-                },
-              ),
+                    )
+                  : ConfirmationButton(
+                      label: 'Finalizar Pagamento',
+                      onPressed: () {
+                        if (_useWallet) {
+                          _processPayment();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Selecione um método de pagamento'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
             ),
             const SizedBox(height: 24),
           ],

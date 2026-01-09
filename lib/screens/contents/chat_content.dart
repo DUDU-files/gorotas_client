@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/widgets/chat_card.dart';
+import 'package:vans/widgets/app_card.dart';
 import 'package:vans/providers/navigation_provider.dart';
+import 'package:vans/providers/chat_provider.dart';
+import 'package:vans/providers/user_provider.dart';
+import 'package:vans/models/chat_model.dart';
 
 class ChatContent extends StatefulWidget {
   const ChatContent({super.key});
@@ -11,85 +15,77 @@ class ChatContent extends StatefulWidget {
 }
 
 class _ChatContentState extends State<ChatContent> {
-  // Dados de exemplo para os chats
-  final List<Map<String, dynamic>> chats = [
-    {
-      'name': 'João Gomes',
-      'rating': 4.8,
-      'trips': 156,
-      'memberSince': 'Janeiro de 2025',
-      'isPinned': false,
-    },
-    {
-      'name': 'Nathan',
-      'rating': 4.8,
-      'trips': 156,
-      'memberSince': 'Janeiro de 2025',
-      'isPinned': false,
-    },
-    {
-      'name': 'Tarcísio',
-      'rating': 4.8,
-      'trips': 156,
-      'memberSince': 'Janeiro de 2025',
-      'isPinned': false,
-    },
-    {
-      'name': 'Zé Vaqueiro',
-      'rating': 4.8,
-      'trips': 156,
-      'memberSince': 'Janeiro de 2025',
-      'isPinned': false,
-    },
-    {
-      'name': 'Léo Foguete',
-      'rating': 4.8,
-      'trips': 156,
-      'memberSince': 'Janeiro de 2025',
-      'isPinned': false,
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadChats();
+  }
+
+  void _loadChats() {
+    final userProvider = context.read<UserProvider>();
+    final chatProvider = context.read<ChatProvider>();
+
+    final clientId = userProvider.userId;
+    if (clientId != null) {
+      chatProvider.loadUserChats(clientId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: chats.length,
-            itemBuilder: (context, index) {
-              final chat = chats[index];
-              return ChatCard(
-                name: chat['name'],
-                rating: chat['rating'],
-                trips: chat['trips'],
-                memberSince: chat['memberSince'],
-                isPinned: chat['isPinned'],
-                onTap: () {
-                  final navProvider = Provider.of<NavigationProvider>(
-                    context,
-                    listen: false,
-                  );
-                  navProvider.navigateTo(
-                    AppScreen.privateChat,
-                    title: chat['name'],
-                    data: {'driverName': chat['name']},
+    return Consumer<ChatProvider>(
+      builder: (context, chatProvider, _) {
+        final chats = chatProvider.chats;
+
+        if (chats.isEmpty) {
+          return const EmptyState(
+            icon: Icons.chat_bubble_outline,
+            title: 'Nenhuma conversa ainda',
+            subtitle: 'Suas conversas com motoristas aparecerão aqui',
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: chats.length,
+                itemBuilder: (context, index) {
+                  final chat = chats[index];
+                  return ChatCard(
+                    name: chat.driverName,
+                    lastMessage: chat.lastMessage,
+                    lastMessageTime: chat.lastMessageTime,
+                    unreadCount: chat.unreadCount,
+                    isPinned: chat.isPinned,
+                    onTap: () => _openChat(chat),
+                    onPinnedChanged: (isPinned) {
+                      // TODO: Implementar fixar conversa
+                    },
                   );
                 },
-                onPinnedChanged: (isPinned) {
-                  setState(() {
-                    chat['isPinned'] = isPinned;
-                  });
-                },
-              );
-            },
+              ),
+              const SizedBox(height: 80),
+            ],
           ),
-          const SizedBox(height: 80),
-        ],
-      ),
+        );
+      },
+    );
+  }
+
+  void _openChat(ChatModel chat) {
+    final navProvider = Provider.of<NavigationProvider>(context, listen: false);
+    navProvider.navigateTo(
+      AppScreen.privateChat,
+      title: chat.driverName,
+      data: {
+        'chatId': chat.id,
+        'driverId': chat.driverId,
+        'driverName': chat.driverName,
+      },
     );
   }
 }

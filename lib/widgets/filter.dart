@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:vans/providers/route_provider.dart';
 
 class FiltersModal extends StatefulWidget {
   const FiltersModal({super.key});
@@ -9,19 +11,77 @@ class FiltersModal extends StatefulWidget {
 }
 
 class _FiltersModalState extends State<FiltersModal> {
-  List<String> selectedTimes = ['06:00 - 11:59'];
-  List<Map<String, String>> availableTimes = [
+  List<String> selectedTimes = [];
+  final List<Map<String, String>> availableTimes = [
     {'label': '06:00 - 11:59', 'value': '06:00 - 11:59'},
     {'label': '12:00 - 17:59', 'value': '12:00 - 17:59'},
     {'label': '18:00 - 23:59', 'value': '18:00 - 23:59'},
     {'label': '00:00 - 05:59', 'value': '00:00 - 05:59'},
   ];
 
-  double minPrice = 800;
-  double maxPrice = 3100;
+  double minPrice = 0;
+  double maxPrice = 1000;
 
-  bool vanSelected = true;
+  bool vanSelected = false;
   bool lotacaoSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Carregar filtros atuais do provider
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<RouteProvider>();
+      setState(() {
+        selectedTimes = List.from(provider.selectedTimeRanges);
+        minPrice = provider.minPrice;
+        maxPrice = provider.maxPrice;
+        vanSelected = provider.selectedVehicleTypes.contains('Van');
+        lotacaoSelected = provider.selectedVehicleTypes.contains('Lotação');
+      });
+    });
+  }
+
+  void _applyFilters() {
+    final provider = context.read<RouteProvider>();
+
+    List<String> vehicleTypes = [];
+    if (vanSelected) vehicleTypes.add('Van');
+    if (lotacaoSelected) vehicleTypes.add('Lotação');
+
+    provider.applyFilters(
+      timeRanges: selectedTimes,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      vehicleTypes: vehicleTypes,
+    );
+
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Filtros aplicados!'),
+        backgroundColor: AppColors.primaryBlue,
+      ),
+    );
+  }
+
+  void _clearFilters() {
+    setState(() {
+      selectedTimes = [];
+      minPrice = 0;
+      maxPrice = 1000;
+      vanSelected = false;
+      lotacaoSelected = false;
+    });
+
+    // Também limpar no provider
+    final provider = context.read<RouteProvider>();
+    provider.applyFilters(
+      timeRanges: [],
+      minPrice: 0,
+      maxPrice: 1000,
+      vehicleTypes: [],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,20 +106,20 @@ class _FiltersModalState extends State<FiltersModal> {
                   Container(
                     width: 40,
                     height: 40,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      shape: BoxShape.circle,
                     ),
-                    child: Center(
+                    child: ClipOval(
                       child: Image.asset(
                         'assets/images/logo.png',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Icon(
                             Icons.directions_bus,
-                            size: 24,
+                            size: 28,
                             color: AppColors.primaryBlue,
                           );
                         },
@@ -148,10 +208,7 @@ class _FiltersModalState extends State<FiltersModal> {
                   const SizedBox(height: 24),
 
                   // Divider
-                  Divider(
-                    color: AppColors.backgroudGray,
-                    height: 1,
-                  ),
+                  Divider(color: AppColors.backgroudGray, height: 1),
                   const SizedBox(height: 24),
 
                   // Seção Preço
@@ -165,93 +222,77 @@ class _FiltersModalState extends State<FiltersModal> {
                   ),
                   const SizedBox(height: 12),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Min Price
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Min',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primaryGray,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.backgroudGray,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'R\$ ${minPrice.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryBlue,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.backgroudGray,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'R\$ ${minPrice.toStringAsFixed(0)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryBlue,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 12),
                       // Max Price
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Max',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primaryGray,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.backgroudGray,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'R\$ ${maxPrice.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryBlue,
-                                ),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.backgroudGray,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'R\$ ${maxPrice.toStringAsFixed(0)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryBlue,
+                          ),
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  RangeSlider(
+                    values: RangeValues(minPrice, maxPrice),
+                    min: 0,
+                    max: 1000,
+                    divisions: 100,
+                    activeColor: AppColors.primaryBlue,
+                    inactiveColor: AppColors.backgroudGray,
+                    labels: RangeLabels(
+                      'R\$ ${minPrice.toStringAsFixed(0)}',
+                      'R\$ ${maxPrice.toStringAsFixed(0)}',
+                    ),
+                    onChanged: (RangeValues values) {
+                      setState(() {
+                        minPrice = values.start;
+                        maxPrice = values.end;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 24),
 
                   // Divider
-                  Divider(
-                    color: AppColors.backgroudGray,
-                    height: 1,
-                  ),
+                  Divider(color: AppColors.backgroudGray, height: 1),
                   const SizedBox(height: 24),
 
                   // Seção Tipo de Veículo
@@ -316,15 +357,7 @@ class _FiltersModalState extends State<FiltersModal> {
                       // Descartar Filtros
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedTimes = ['06:00 - 11:59'];
-                              minPrice = 800;
-                              maxPrice = 3100;
-                              vanSelected = true;
-                              lotacaoSelected = false;
-                            });
-                          },
+                          onPressed: _clearFilters,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryBlue,
                             shape: RoundedRectangleBorder(
@@ -333,7 +366,7 @@ class _FiltersModalState extends State<FiltersModal> {
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: const Text(
-                            'Descartar Filtros',
+                            'Limpar Filtros',
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -346,14 +379,7 @@ class _FiltersModalState extends State<FiltersModal> {
                       // Aplicar Filtros
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Filtros aplicados!'),
-                              ),
-                            );
-                          },
+                          onPressed: _applyFilters,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryOrange,
                             shape: RoundedRectangleBorder(

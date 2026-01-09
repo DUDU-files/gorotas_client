@@ -11,6 +11,7 @@ class PassageCard extends StatelessWidget {
   final String duration;
   final String departureTime;
   final List<String> availableTimes;
+  final List<String> availableDates; // Próximas datas disponíveis (dd/MM)
   final double rating;
   final VoidCallback onMoreInfo;
   final VoidCallback onBuyTicket;
@@ -26,6 +27,7 @@ class PassageCard extends StatelessWidget {
     required this.duration,
     required this.departureTime,
     required this.availableTimes,
+    this.availableDates = const [],
     required this.rating,
     required this.onMoreInfo,
     required this.onBuyTicket,
@@ -39,10 +41,7 @@ class PassageCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.lightGray,
-          width: 1.5,
-        ),
+        border: Border.all(color: AppColors.lightGray, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,11 +49,7 @@ class PassageCard extends StatelessWidget {
           // Rota
           Row(
             children: [
-              Icon(
-                Icons.location_on,
-                color: AppColors.primaryBlue,
-                size: 20,
-              ),
+              Icon(Icons.location_on, color: AppColors.primaryBlue, size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -109,7 +104,9 @@ class PassageCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    date,
+                    availableDates.isNotEmpty
+                        ? availableDates.take(3).join(', ')
+                        : date,
                     style: TextStyle(
                       fontSize: 12,
                       color: AppColors.primaryGray,
@@ -119,6 +116,54 @@ class PassageCard extends StatelessWidget {
               ),
             ],
           ),
+
+          // Próximas datas disponíveis (só mostra se tiver mais de 1 data)
+          if (availableDates.length > 1) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Próximas viagens:',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primaryGray,
+              ),
+            ),
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 32,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: availableDates.length > 5
+                    ? 5
+                    : availableDates.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: index == 0
+                          ? AppColors.primaryOrange
+                          : AppColors.primaryBlue.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      availableDates[index],
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: index == 0
+                            ? AppColors.white
+                            : AppColors.primaryBlue,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
 
           // Assentos disponíveis e duração
@@ -144,11 +189,7 @@ class PassageCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Icon(
-                    Icons.schedule,
-                    size: 14,
-                    color: AppColors.primaryGray,
-                  ),
+                  Icon(Icons.schedule, size: 14, color: AppColors.primaryGray),
                   const SizedBox(width: 4),
                   Text(
                     duration,
@@ -189,10 +230,7 @@ class PassageCard extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Divider
-          Divider(
-            color: AppColors.backgroudGray,
-            height: 1,
-          ),
+          Divider(color: AppColors.backgroudGray, height: 1),
           const SizedBox(height: 16),
 
           // Avaliação e Botões
@@ -201,11 +239,7 @@ class PassageCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    Icons.star,
-                    color: AppColors.starFilled,
-                    size: 16,
-                  ),
+                  Icon(Icons.star, color: AppColors.starFilled, size: 16),
                   const SizedBox(width: 4),
                   Text(
                     rating.toString(),
@@ -228,7 +262,10 @@ class PassageCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 8,
+                      ),
                     ),
                     child: const FittedBox(
                       fit: BoxFit.scaleDown,
@@ -255,7 +292,10 @@ class PassageCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 8,
+                      ),
                     ),
                     child: const FittedBox(
                       fit: BoxFit.scaleDown,

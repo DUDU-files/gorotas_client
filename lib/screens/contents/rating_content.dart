@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
+import 'package:vans/providers/ticket_provider.dart';
 
 class RatingContent extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -14,7 +15,10 @@ class RatingContent extends StatefulWidget {
 
 class _RatingContentState extends State<RatingContent> {
   int _rating = 0;
+  bool _isSubmitting = false;
   final TextEditingController _feedbackController = TextEditingController();
+
+  String get ticketId => widget.data['ticketId'] ?? '';
 
   void _setRating(int rating) {
     setState(() {
@@ -22,19 +26,56 @@ class _RatingContentState extends State<RatingContent> {
     });
   }
 
-  void _submitRating() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Obrigado! Você avaliou com $_rating estrela(s).'),
-      ),
-    );
-    Future.delayed(const Duration(seconds: 1), () {
-      final navProvider = Provider.of<NavigationProvider>(
-        context,
-        listen: false,
+  Future<void> _submitRating() async {
+    if (_rating == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, selecione uma avaliação')),
       );
-      navProvider.goBack();
-    });
+      return;
+    }
+
+    if (ticketId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro: Ticket não encontrado')),
+      );
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+
+    final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+    final success = await ticketProvider.rateTicket(
+      ticketId: ticketId,
+      rating: _rating,
+      feedback: _feedbackController.text.trim().isEmpty
+          ? null
+          : _feedbackController.text.trim(),
+    );
+
+    setState(() => _isSubmitting = false);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Obrigado! Você avaliou com $_rating estrela(s).'),
+          backgroundColor: AppColors.green,
+        ),
+      );
+      Future.delayed(const Duration(seconds: 1), () {
+        final navProvider = Provider.of<NavigationProvider>(
+          context,
+          listen: false,
+        );
+        navProvider.navigateTo(AppScreen.tickets);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao enviar avaliação. Tente novamente.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -62,22 +103,23 @@ class _RatingContentState extends State<RatingContent> {
                 children: [
                   // Logo
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 80,
+                    height: 80,
                     decoration: BoxDecoration(
-                      color: AppColors.secondaryBlue,
-                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.lightGray),
                     ),
-                    child: Center(
+                    child: ClipOval(
                       child: Image.asset(
                         'assets/images/logo.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Icon(
                             Icons.directions_bus,
-                            size: 32,
+                            size: 50,
                             color: AppColors.primaryBlue,
                           );
                         },
@@ -163,24 +205,30 @@ class _RatingContentState extends State<RatingContent> {
                   // Botão de enviar
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _submitRating,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryOrange,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        'Enviar',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
+                    child: _isSubmitting
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryOrange,
+                            ),
+                          )
+                        : ElevatedButton(
+                            onPressed: _submitRating,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryOrange,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'Enviar',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

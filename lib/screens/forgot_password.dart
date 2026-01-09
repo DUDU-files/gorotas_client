@@ -44,11 +44,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 color: AppColors.green,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.check,
-                color: AppColors.white,
-                size: 48,
-              ),
+              child: const Icon(Icons.check, color: AppColors.white, size: 48),
             ),
             const SizedBox(height: 20),
 
@@ -67,10 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             const Text(
               'Solicitação de recuperação enviada.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                color: AppColors.primaryGray,
-              ),
+              style: TextStyle(fontSize: 13, color: AppColors.primaryGray),
             ),
             const SizedBox(height: 24),
 
@@ -110,16 +103,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Column(
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
+                      width: 90,
+                      height: 90,
+                      decoration: const BoxDecoration(
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(12),
+                        shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.directions_car,
-                        size: 40,
-                        color: AppColors.primaryOrange,
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 90,
+                          height: 90,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.directions_bus,
+                              size: 55,
+                              color: AppColors.primaryBlue,
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -134,10 +137,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     const SizedBox(height: 4),
                     const Text(
                       'Acesso para Clientes',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.white,
-                      ),
+                      style: TextStyle(fontSize: 12, color: AppColors.white),
                     ),
                   ],
                 ),

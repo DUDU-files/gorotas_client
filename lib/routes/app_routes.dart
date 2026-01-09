@@ -5,6 +5,7 @@ import '../screens/forgot_password.dart';
 import '../screens/home_page.dart';
 import '../screens/add_card.dart';
 import '../screens/add_pix.dart';
+import '../screens/profile.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -13,6 +14,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String addCard = '/add-card';
   static const String addPix = '/add-pix';
+  static const String profile = '/profile';
 
   static final Map<String, WidgetBuilder> routeMap = {
     login: (_) => const LoginScreen(),
@@ -21,6 +23,7 @@ class AppRoutes {
     home: (_) => const HomePage(),
     addCard: (_) => const AddCardScreen(),
     addPix: (_) => const AddPixScreen(),
+    profile: (_) => const ProfileScreen(),
   };
 
   static Route<dynamic> unknownRoute(RouteSettings settings) {

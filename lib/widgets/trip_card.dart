@@ -25,10 +25,7 @@ class TripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.primaryBlue,
-          width: 1.5,
-        ),
+        border: Border.all(color: AppColors.primaryBlue, width: 1.5),
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(16),
@@ -48,11 +45,7 @@ class TripCard extends StatelessWidget {
                   color: AppColors.black,
                 ),
               ),
-              const Icon(
-                Icons.receipt,
-                color: AppColors.primaryGray,
-                size: 20,
-              ),
+              const Icon(Icons.receipt, color: AppColors.primaryGray, size: 20),
             ],
           ),
           const SizedBox(height: 12),
@@ -68,10 +61,7 @@ class TripCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 date,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.black,
-                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.black),
               ),
             ],
           ),
@@ -88,10 +78,7 @@ class TripCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 origin,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.black,
-                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.black),
               ),
             ],
           ),
@@ -100,18 +87,11 @@ class TripCard extends StatelessWidget {
           // Destino
           Row(
             children: [
-              const Icon(
-                Icons.location_on,
-                size: 14,
-                color: AppColors.green,
-              ),
+              const Icon(Icons.location_on, size: 14, color: AppColors.green),
               const SizedBox(width: 8),
               Text(
                 destination,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.black,
-                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.black),
               ),
             ],
           ),
@@ -121,28 +101,52 @@ class TripCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: onRating,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      size: 14,
-                      color: AppColors.starFilled,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Avaliação',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.primaryBlue,
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.w600,
+              // Mostrar avaliação feita ou link para avaliar
+              rating > 0
+                  ? Row(
+                      children: [
+                        ...List.generate(5, (index) {
+                          return Icon(
+                            index < rating.round()
+                                ? Icons.star
+                                : Icons.star_outline,
+                            size: 16,
+                            color: AppColors.starFilled,
+                          );
+                        }),
+                        const SizedBox(width: 4),
+                        Text(
+                          '(${rating.toStringAsFixed(1)})',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.primaryGray,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                  : GestureDetector(
+                      onTap: onRating,
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.star_outline,
+                            size: 16,
+                            color: AppColors.starFilled,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Avaliar viagem',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.primaryBlue,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
               // Botão de download
               ElevatedButton.icon(
                 onPressed: onDownload,

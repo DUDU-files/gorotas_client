@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/screens/login.dart';
+import 'package:vans/providers/user_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,17 +14,55 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _nameController = TextEditingController();
+  final _cpfController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     _nameController.dispose();
+    _cpfController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleRegister() async {
+    // Validação básica
+    if (_nameController.text.isEmpty ||
+        _cpfController.text.isEmpty ||
+        _phoneController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, preencha todos os campos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    String? error = await userProvider.register(
+      name: _nameController.text.trim(),
+      cpf: _cpfController.text.trim(),
+      phone: _phoneController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error), backgroundColor: Colors.red),
+      );
+    } else {
+      _showSuccessModal(context);
+    }
   }
 
   void _showSuccessModal(BuildContext context) {
@@ -50,11 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: AppColors.green,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.check,
-                color: AppColors.white,
-                size: 48,
-              ),
+              child: const Icon(Icons.check, color: AppColors.white, size: 48),
             ),
             const SizedBox(height: 20),
 
@@ -73,10 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const Text(
               'Cadastro realizado com sucesso.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                color: AppColors.primaryGray,
-              ),
+              style: TextStyle(fontSize: 13, color: AppColors.primaryGray),
             ),
             const SizedBox(height: 24),
 
@@ -84,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(
               width: double.infinity,
               child: ConfirmationButton(
-                label: 'Proseeguir para o Login',
+                label: 'Prosseguir para o Login',
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -115,35 +148,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 // Logo e Título
                 Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
+                  width: 100,
+                  height: 100,
+                  decoration: const BoxDecoration(
                     color: AppColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+                    shape: BoxShape.circle,
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: 70,
-                        height: 70,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.directions_bus,
-                            size: 50,
-                            color: AppColors.primaryBlue,
-                          );
-                        },
-                      ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.directions_bus,
+                          size: 70,
+                          color: AppColors.primaryBlue,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -221,6 +244,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             vertical: 12,
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // CPF Input
+                      Text(
+                        'CPF',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryGray,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _cpfController,
+                        decoration: InputDecoration(
+                          hintText: '000.000.000-00',
+                          hintStyle: TextStyle(
+                            color: AppColors.lightGray,
+                            fontSize: 13,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.badge_outlined,
+                            color: AppColors.lightGray,
+                            size: 20,
+                          ),
+                          filled: true,
+                          fillColor: AppColors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 16),
 
@@ -339,10 +400,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 24),
 
                       // Botão Cadastrar
-                      ConfirmationButton(
-                        label: 'Cadastrar',
-                        onPressed: () {
-                          _showSuccessModal(context);
+                      Consumer<UserProvider>(
+                        builder: (context, userProvider, child) {
+                          return ConfirmationButton(
+                            label: userProvider.isLoading
+                                ? 'Cadastrando...'
+                                : 'Cadastrar',
+                            onPressed: userProvider.isLoading
+                                ? null
+                                : _handleRegister,
+                          );
                         },
                       ),
                       const SizedBox(height: 16),
