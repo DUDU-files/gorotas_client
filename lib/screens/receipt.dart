@@ -25,57 +25,7 @@ class Receipt extends StatelessWidget {
         child: Column(
           children: [
             // Logo e título
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.primaryBlue,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: 70,
-                        height: 70,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.directions_bus,
-                            size: 40,
-                            color: AppColors.primaryBlue,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'GoRotas',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Comprovante de Passagem',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.secondaryBlue,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const ReceiptHeader(),
             const SizedBox(height: 20),
 
             // Informações da viagem
