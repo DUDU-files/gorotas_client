@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/user_provider.dart';
+import 'package:vans/widgets/app_text_field.dart';
 
 class ProfileEdit extends StatefulWidget {
   const ProfileEdit({super.key});
@@ -190,10 +191,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                         const SizedBox(height: 20),
 
                         // Nome
-                        _buildTextField(
+                        AppTextField(
                           controller: _nameController,
                           label: 'Nome completo',
-                          icon: Icons.person_outline,
+                          prefixIcon: Icons.person_outline,
                           enabled: _isEditing,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -205,32 +206,30 @@ class _ProfileEditState extends State<ProfileEdit> {
                         const SizedBox(height: 16),
 
                         // Email (não editável)
-                        _buildTextField(
+                        AppTextField(
                           controller: _emailController,
                           label: 'E-mail',
-                          icon: Icons.email_outlined,
+                          prefixIcon: Icons.email_outlined,
                           enabled: false,
-                          helperText: 'O e-mail não pode ser alterado',
                         ),
                         const SizedBox(height: 16),
 
                         // Telefone
-                        _buildTextField(
+                        AppTextField(
                           controller: _phoneController,
                           label: 'Telefone',
-                          icon: Icons.phone_outlined,
+                          prefixIcon: Icons.phone_outlined,
                           enabled: _isEditing,
                           keyboardType: TextInputType.phone,
                         ),
                         const SizedBox(height: 16),
 
                         // CPF (não editável)
-                        _buildTextField(
+                        AppTextField(
                           controller: _cpfController,
                           label: 'CPF',
-                          icon: Icons.badge_outlined,
+                          prefixIcon: Icons.badge_outlined,
                           enabled: false,
-                          helperText: 'O CPF não pode ser alterado',
                         ),
                         const SizedBox(height: 32),
 
@@ -317,53 +316,6 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    bool enabled = true,
-    String? helperText,
-    TextInputType? keyboardType,
-    String? Function(String?)? validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      enabled: enabled,
-      keyboardType: keyboardType,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        helperText: helperText,
-        helperStyle: TextStyle(
-          color: AppColors.primaryGray.withOpacity(0.7),
-          fontSize: 12,
-        ),
-        prefixIcon: Icon(
-          icon,
-          color: enabled ? AppColors.primaryBlue : AppColors.primaryGray,
-        ),
-        filled: true,
-        fillColor: enabled ? AppColors.white : AppColors.backgroudGray,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.lightGray),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.lightGray),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.lightGray),
-        ),
-      ),
     );
   }
 }

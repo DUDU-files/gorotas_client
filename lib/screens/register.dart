@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/screens/login.dart';
 import 'package:vans/providers/user_provider.dart';
@@ -211,191 +212,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 24),
 
                       // Nome Completo Input
-                      Text(
-                        'Nome Completo',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'Nome Completo',
+                        hintText: 'Seu nome completo',
                         controller: _nameController,
-                        decoration: InputDecoration(
-                          hintText: 'Seu nome completo',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.person_outline,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.person_outline,
                       ),
                       const SizedBox(height: 16),
 
                       // CPF Input
-                      Text(
-                        'CPF',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'CPF',
+                        hintText: '000.000.000-00',
                         controller: _cpfController,
-                        decoration: InputDecoration(
-                          hintText: '000.000.000-00',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.badge_outlined,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.badge_outlined,
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 16),
 
                       // Telefone Input
-                      Text(
-                        'Telefone',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'Telefone',
+                        hintText: '(99) 99999-9999',
                         controller: _phoneController,
-                        decoration: InputDecoration(
-                          hintText: '(99) 99999-9999',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.phone_outlined,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.phone_outlined,
                         keyboardType: TextInputType.phone,
                       ),
                       const SizedBox(height: 16),
 
                       // Email Input
-                      Text(
-                        'E-mail',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'E-mail',
+                        hintText: 'seu@gmail.com',
                         controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'seu@gmail.com',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 16),
 
                       // Password Input
-                      Text(
-                        'Senha',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'Senha',
+                        hintText: '••••••••',
                         controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: '••••••••',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.lock_outline,
+                        isPassword: true,
                       ),
                       const SizedBox(height: 24),
 
