@@ -11,6 +11,7 @@ enum AppScreen {
   receipt,
   rating,
   privateChat,
+  profile,
 }
 
 class NavigationProvider extends ChangeNotifier {
@@ -90,10 +91,12 @@ class NavigationProvider extends ChangeNotifier {
         return 'Avaliação';
       case AppScreen.privateChat:
         return _screenData['driverName'] ?? 'Chat';
+      case AppScreen.profile:
+        return 'Meu Perfil';
     }
   }
 
-  int get bottomMenuIndex {
+  int get navbarIndex {
     switch (_currentScreen) {
       case AppScreen.search:
       case AppScreen.results:
@@ -108,6 +111,7 @@ class NavigationProvider extends ChangeNotifier {
       case AppScreen.privateChat:
         return 2;
       case AppScreen.menu:
+      case AppScreen.profile:
         return 3;
     }
   }

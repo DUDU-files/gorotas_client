@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
-import 'package:vans/widgets/bottom_menu.dart';
+import 'package:vans/widgets/navbar.dart';
 import 'package:vans/widgets/app_header.dart';
 import 'package:vans/screens/contents/search_content.dart';
 import 'package:vans/screens/contents/tickets_content.dart';
@@ -14,6 +14,7 @@ import 'package:vans/screens/contents/payment_content.dart';
 import 'package:vans/screens/contents/receipt_content.dart';
 import 'package:vans/screens/contents/rating_content.dart';
 import 'package:vans/screens/contents/private_chat_content.dart';
+import 'package:vans/screens/contents/profile_content.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,9 +29,9 @@ class HomePage extends StatelessWidget {
               ? _buildAppBar(context, navProvider)
               : null,
           body: _buildBody(navProvider),
-          bottomNavigationBar: BottomMenu(
-            currentIndex: navProvider.bottomMenuIndex,
-            onItemSelected: (index) => _handleBottomMenuTap(context, index),
+          bottomNavigationBar: Navbar(
+            currentIndex: navProvider.navbarIndex,
+            onItemSelected: (index) => _handleNavbarTap(context, index),
           ),
         );
       },
@@ -86,10 +87,12 @@ class HomePage extends StatelessWidget {
         return RatingContent(data: navProvider.screenData);
       case AppScreen.privateChat:
         return PrivateChatContent(data: navProvider.screenData);
+      case AppScreen.profile:
+        return const ProfileContent();
     }
   }
 
-  void _handleBottomMenuTap(BuildContext context, int index) {
+  void _handleNavbarTap(BuildContext context, int index) {
     final navProvider = Provider.of<NavigationProvider>(context, listen: false);
 
     switch (index) {

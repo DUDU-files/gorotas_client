@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
 
-class BottomMenu extends StatelessWidget {
+class Navbar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onItemSelected;
 
-  const BottomMenu({
+  const Navbar({
     super.key,
     required this.currentIndex,
     required this.onItemSelected,

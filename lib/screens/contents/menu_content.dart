@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/user_provider.dart';
+import 'package:vans/providers/navigation_provider.dart';
 
 class MenuContent extends StatelessWidget {
   const MenuContent({super.key});
@@ -18,7 +19,12 @@ class MenuContent extends StatelessWidget {
               children: [
                 // Header do perfil
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/profile'),
+                  onTap: () {
+                    Provider.of<NavigationProvider>(
+                      context,
+                      listen: false,
+                    ).navigateTo(AppScreen.profile);
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -71,7 +77,12 @@ class MenuContent extends StatelessWidget {
                 _buildMenuItem(
                   icon: Icons.person_outline,
                   title: 'Meu Perfil',
-                  onTap: () => Navigator.pushNamed(context, '/profile'),
+                  onTap: () {
+                    Provider.of<NavigationProvider>(
+                      context,
+                      listen: false,
+                    ).navigateTo(AppScreen.profile);
+                  },
                 ),
                 _buildMenuItem(
                   icon: Icons.wallet,
