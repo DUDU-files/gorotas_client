@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/route_provider.dart';
 
@@ -94,113 +95,29 @@ class _SearchState extends State<Search> {
                 const SizedBox(height: 24),
 
                 // Campo: Saindo de
-                Text(
-                  'Saindo de:',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryGray,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
+                AppTextField(
+                  label: 'Saindo de:',
+                  hintText: 'Origem da sua viagem',
                   controller: _originController,
-                  decoration: InputDecoration(
-                    hintText: 'Origem da sua viagem',
-                    hintStyle: TextStyle(
-                      color: AppColors.lightGray,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.location_on_outlined,
-                      color: AppColors.lightGray,
-                      size: 20,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
+                  prefixIcon: Icons.location_on_outlined,
                 ),
                 const SizedBox(height: 16),
 
                 // Campo: Chegando em
-                Text(
-                  'Chegando em:',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryGray,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
+                AppTextField(
+                  label: 'Chegando em:',
+                  hintText: 'Destino da sua viagem',
                   controller: _destinationController,
-                  decoration: InputDecoration(
-                    hintText: 'Destino da sua viagem',
-                    hintStyle: TextStyle(
-                      color: AppColors.lightGray,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.location_on,
-                      color: AppColors.lightGray,
-                      size: 20,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
+                  prefixIcon: Icons.location_on,
                 ),
                 const SizedBox(height: 16),
 
                 // Campo: Dia da ida
-                Text(
-                  'Dia da ida:',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryGray,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
+                AppTextField(
+                  label: 'Dia da ida:',
+                  hintText: '04/10/2025',
                   controller: _departureDateController,
-                  decoration: InputDecoration(
-                    hintText: '04/10/2025',
-                    hintStyle: TextStyle(
-                      color: AppColors.lightGray,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: AppColors.lightGray,
-                      size: 20,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
+                  prefixIcon: Icons.calendar_today_outlined,
                   readOnly: true,
                   onTap: () async {
                     DateTime? picked = await showDatePicker(

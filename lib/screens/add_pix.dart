@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 
 class AddPixScreen extends StatefulWidget {
@@ -66,10 +67,7 @@ class _AddPixScreenState extends State<AddPixScreen> {
               Container(
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(
-                      color: AppColors.lightGray,
-                      width: 2,
-                    ),
+                    bottom: BorderSide(color: AppColors.lightGray, width: 2),
                   ),
                 ),
                 child: Row(
@@ -248,7 +246,7 @@ class _AddPixScreenState extends State<AddPixScreen> {
                   ],
                 )
               else
-              // Conteúdo: Chave Pix
+                // Conteúdo: Chave Pix
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -270,40 +268,9 @@ class _AddPixScreenState extends State<AddPixScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    TextField(
+                    AppTextField(
+                      hintText: 'contato@gorotas.com.br',
                       controller: _pixKeyController,
-                      decoration: InputDecoration(
-                        hintText: 'contato@gorotas.com.br',
-                        hintStyle: const TextStyle(
-                          color: AppColors.primaryGray,
-                          fontSize: 13,
-                        ),
-                        filled: true,
-                        fillColor: AppColors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: AppColors.lightGray,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: AppColors.lightGray,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: AppColors.primaryBlue,
-                            width: 2,
-                          ),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 24),
 
@@ -407,7 +374,9 @@ class _AddPixScreenState extends State<AddPixScreen> {
                         if (_showQRCode) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('QR Code copiado para a área de transferência'),
+                              content: Text(
+                                'QR Code copiado para a área de transferência',
+                              ),
                             ),
                           );
                           Future.delayed(const Duration(seconds: 1), () {
@@ -423,7 +392,9 @@ class _AddPixScreenState extends State<AddPixScreen> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Chave Pix copiada! Use seu banco para transferir'),
+                                content: Text(
+                                  'Chave Pix copiada! Use seu banco para transferir',
+                                ),
                               ),
                             );
                             Future.delayed(const Duration(seconds: 1), () {

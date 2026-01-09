@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 
 class AddCardScreen extends StatefulWidget {
@@ -68,96 +69,18 @@ class _AddCardScreenState extends State<AddCardScreen> {
               const SizedBox(height: 20),
 
               // Nome do Cartão
-              const Text(
-                'Nome do Cartão',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryGray,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
+              AppTextField(
+                label: 'Nome do Cartão',
+                hintText: 'Ex: Meu Cartão',
                 controller: _cardNameController,
-                decoration: InputDecoration(
-                  hintText: 'Ex: Meu Cartão',
-                  hintStyle: const TextStyle(
-                    color: AppColors.primaryGray,
-                    fontSize: 13,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.lightGray,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.lightGray,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.primaryBlue,
-                      width: 2,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                ),
               ),
               const SizedBox(height: 16),
 
               // Número do Cartão
-              const Text(
-                'Número do Cartão',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryGray,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
+              AppTextField(
+                label: 'Número do Cartão',
+                hintText: '0000 0000 0000 0000',
                 controller: _cardNumberController,
-                decoration: InputDecoration(
-                  hintText: '0000 0000 0000 0000',
-                  hintStyle: const TextStyle(
-                    color: AppColors.primaryGray,
-                    fontSize: 13,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.lightGray,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.lightGray,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: AppColors.primaryBlue,
-                      width: 2,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                ),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 16),
@@ -167,110 +90,21 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Data de Validade',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.primaryGray,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: _cardDateController,
-                          decoration: InputDecoration(
-                            hintText: 'MM/AA',
-                            hintStyle: const TextStyle(
-                              color: AppColors.primaryGray,
-                              fontSize: 13,
-                            ),
-                            filled: true,
-                            fillColor: AppColors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.lightGray,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.lightGray,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.primaryBlue,
-                                width: 2,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ],
+                    child: AppTextField(
+                      label: 'Data de Validade',
+                      hintText: 'MM/AA',
+                      controller: _cardDateController,
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'CVV',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.primaryGray,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: _cardCVVController,
-                          decoration: InputDecoration(
-                            hintText: '000',
-                            hintStyle: const TextStyle(
-                              color: AppColors.primaryGray,
-                              fontSize: 13,
-                            ),
-                            filled: true,
-                            fillColor: AppColors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.lightGray,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.lightGray,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                color: AppColors.primaryBlue,
-                                width: 2,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                          maxLength: 3,
-                        ),
-                      ],
+                    child: AppTextField(
+                      label: 'CVV',
+                      hintText: '000',
+                      controller: _cardCVVController,
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ],
@@ -311,7 +145,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                             _cardCVVController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Por favor, preencha todos os campos'),
+                              content: Text(
+                                'Por favor, preencha todos os campos',
+                              ),
                             ),
                           );
                         } else {

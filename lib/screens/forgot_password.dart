@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/screens/login.dart';
 
@@ -178,40 +179,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       const SizedBox(height: 16),
 
                       // Campo de e-mail
-                      TextField(
+                      AppTextField(
+                        hintText: 'seu@email.com',
                         controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'seu@email.com',
-                          hintStyle: const TextStyle(
-                            color: AppColors.primaryGray,
-                            fontSize: 13,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: AppColors.lightGray,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: AppColors.lightGray,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: AppColors.primaryBlue,
-                              width: 2,
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
                         keyboardType: TextInputType.emailAddress,
                       ),
 

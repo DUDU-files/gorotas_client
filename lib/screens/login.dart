@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
+import 'package:vans/widgets/app_text_field.dart';
 import 'package:vans/routes/app_routes.dart';
 import 'package:vans/screens/register.dart';
 import 'package:vans/screens/forgot_password.dart';
@@ -208,78 +209,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20),
 
                       // Email Input
-                      Text(
-                        'E-mail',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'E-mail',
+                        hintText: 'seu@gmail.com',
                         controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'seu@gmail.com',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 16),
 
                       // Password Input
-                      Text(
-                        'Senha',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
+                      AppTextField(
+                        label: 'Senha',
+                        hintText: '••••••••',
                         controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: '••••••••',
-                          hintStyle: TextStyle(
-                            color: AppColors.lightGray,
-                            fontSize: 13,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: AppColors.lightGray,
-                            size: 20,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
+                        prefixIcon: Icons.lock_outline,
+                        isPassword: true,
                       ),
                       const SizedBox(height: 24),
 
