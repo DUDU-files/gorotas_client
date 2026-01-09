@@ -102,32 +102,14 @@ class _ProfileContentState extends State<ProfileContent> {
                 // Header azul com foto
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(16, 60, 16, 30),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                   decoration: const BoxDecoration(color: AppColors.primaryBlue),
                   child: Column(
                     children: [
-                      // Botão voltar e título
+                      // Botão editar/salvar
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: AppColors.white,
-                            ),
-                          ),
-                          const Expanded(
-                            child: Text(
-                              'Meu Perfil',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
-                          // Botão editar/salvar
                           IconButton(
                             onPressed: _isEditing ? _saveProfile : _toggleEdit,
                             icon: Icon(
@@ -137,7 +119,6 @@ class _ProfileContentState extends State<ProfileContent> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
                       // Foto do perfil
                       Stack(
                         children: [
