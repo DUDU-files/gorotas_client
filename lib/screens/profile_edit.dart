@@ -99,75 +99,11 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: Column(
               children: [
                 // Header azul com foto
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
-                  decoration: const BoxDecoration(color: AppColors.primaryBlue),
-                  child: Column(
-                    children: [
-                      // Botão editar/salvar
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            onPressed: _isEditing ? _saveProfile : _toggleEdit,
-                            icon: Icon(
-                              _isEditing ? Icons.check : Icons.edit,
-                              color: AppColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Foto do perfil
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor: AppColors.white,
-                            child: Icon(
-                              Icons.person,
-                              size: 60,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                          if (_isEditing)
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  size: 20,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        userProvider.userName,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        userProvider.userEmail,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.white.withOpacity(0.8),
-                        ),
-                      ),
-                    ],
-                  ),
+                ProfileHeader(
+                  userName: userProvider.userName,
+                  userEmail: userProvider.userEmail,
+                  isEditing: _isEditing,
+                  onEditPressed: _isEditing ? _saveProfile : _toggleEdit,
                 ),
 
                 // Formulário

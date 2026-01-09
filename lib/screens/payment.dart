@@ -216,48 +216,14 @@ class _PaymentState extends State<Payment> {
             const SizedBox(height: 12),
 
             // Saldo da Carteira
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: AppColors.lightGray, width: 1),
-                ),
-              ),
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Minha carteira(R\$)',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.primaryGray,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'R\$ ${_walletBalance.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      Checkbox(
-                        value: _useWallet,
-                        onChanged: (value) {
-                          setState(() {
-                            _useWallet = value ?? false;
-                          });
-                        },
-                        activeColor: AppColors.primaryOrange,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            WalletBalance(
+              balance: _walletBalance,
+              isSelected: _useWallet,
+              onSelectionChanged: (value) {
+                setState(() {
+                  _useWallet = value;
+                });
+              },
             ),
             const SizedBox(height: 16),
 
@@ -350,87 +316,24 @@ class _PaymentState extends State<Payment> {
             const SizedBox(height: 32),
 
             // Resumo do pagamento
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.backgroudGray,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.lightGray),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Valor da passagem:',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.primaryGray,
-                        ),
-                      ),
-                      Text(
-                        'R\$ ${ticketPrice.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  const Divider(color: AppColors.lightGray),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Total a pagar:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      Text(
-                        'R\$ ${ticketPrice.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.green,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            PaymentSummary(ticketPrice: ticketPrice),
             const SizedBox(height: 24),
 
             // Botão de Pagar
-            SizedBox(
-              width: double.infinity,
-              child: _isProcessing
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryOrange,
-                      ),
-                    )
-                  : ConfirmationButton(
-                      label: 'Finalizar Pagamento',
-                      onPressed: () {
-                        if (_useWallet) {
-                          _processPayment();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Selecione um método de pagamento'),
-                            ),
-                          );
-                        }
-                      },
+            PrimaryButton(
+              label: 'Finalizar Pagamento',
+              isLoading: _isProcessing,
+              onPressed: () {
+                if (_useWallet) {
+                  _processPayment();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Selecione um método de pagamento'),
                     ),
+                  );
+                }
+              },
             ),
             const SizedBox(height: 24),
           ],

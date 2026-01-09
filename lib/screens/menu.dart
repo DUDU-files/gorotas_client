@@ -16,63 +16,20 @@ class Menu extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header do perfil
-                GestureDetector(
+                MenuProfileHeader(
+                  userName: userProvider.userName,
+                  userEmail: userProvider.userEmail,
                   onTap: () {
                     Provider.of<NavigationProvider>(
                       context,
                       listen: false,
                     ).navigateTo(AppScreen.profile);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroudGray,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: AppColors.primaryBlue,
-                          child: const Icon(
-                            Icons.person,
-                            size: 35,
-                            color: AppColors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                userProvider.userName,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                userProvider.userEmail,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.primaryGray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.edit, color: AppColors.primaryGray),
-                      ],
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 24),
 
                 // Opções do Menu
-                _buildMenuItem(
+                MenuItem(
                   icon: Icons.person_outline,
                   title: 'Meu Perfil',
                   onTap: () {
@@ -82,32 +39,28 @@ class Menu extends StatelessWidget {
                     ).navigateTo(AppScreen.profile);
                   },
                 ),
-                _buildMenuItem(
-                  icon: Icons.wallet,
-                  title: 'Carteira',
-                  onTap: () {},
-                ),
-                _buildMenuItem(
+                MenuItem(icon: Icons.wallet, title: 'Carteira', onTap: () {}),
+                MenuItem(
                   icon: Icons.credit_card,
                   title: 'Formas de Pagamento',
                   onTap: () {},
                 ),
-                _buildMenuItem(
+                MenuItem(
                   icon: Icons.history,
                   title: 'Histórico de Viagens',
                   onTap: () {},
                 ),
-                _buildMenuItem(
+                MenuItem(
                   icon: Icons.notifications_outlined,
                   title: 'Notificações',
                   onTap: () {},
                 ),
-                _buildMenuItem(
+                MenuItem(
                   icon: Icons.help_outline,
                   title: 'Ajuda',
                   onTap: () {},
                 ),
-                _buildMenuItem(
+                MenuItem(
                   icon: Icons.settings_outlined,
                   title: 'Configurações',
                   onTap: () {},
@@ -147,27 +100,6 @@ class Menu extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: AppColors.primaryBlue),
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 16, color: AppColors.black),
-      ),
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        size: 16,
-        color: AppColors.primaryGray,
-      ),
-      onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
     );
   }
 }

@@ -149,22 +149,7 @@ class _RatingState extends State<Rating> {
                   const SizedBox(height: 20),
 
                   // Estrelas interativas
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (index) {
-                      return GestureDetector(
-                        onTap: () => _setRating(index + 1),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Icon(
-                            index < _rating ? Icons.star : Icons.star_outline,
-                            color: AppColors.starFilled,
-                            size: 40,
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                  StarRating(rating: _rating, onRatingChanged: _setRating),
                   const SizedBox(height: 24),
 
                   // Texto de feedback

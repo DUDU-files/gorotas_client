@@ -36,6 +36,23 @@ export 'widgets/passage_card.dart';
 export 'widgets/chat_card.dart';
 export 'widgets/filter.dart';
 export 'widgets/app_card.dart';
+export 'widgets/menu_item.dart';
+export 'widgets/menu_profile_header.dart';
+export 'widgets/auth_tabs.dart';
+export 'widgets/tab_selector.dart';
+export 'widgets/driver_info_card.dart';
+export 'widgets/support_contact_card.dart';
+export 'widgets/rating_tags_section.dart';
+export 'widgets/payment_summary.dart';
+export 'widgets/wallet_balance.dart';
+export 'widgets/chat_bubble.dart';
+export 'widgets/profile_header.dart';
+export 'widgets/star_rating.dart';
+export 'widgets/screen_app_bar.dart';
+export 'widgets/trip_info_card.dart';
+export 'widgets/qr_code_section.dart';
+export 'widgets/pix_key_section.dart';
+export 'widgets/receipt_header.dart';
 
 // Screens
 export 'screens/login.dart';
