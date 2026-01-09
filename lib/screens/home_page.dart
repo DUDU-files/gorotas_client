@@ -70,20 +70,20 @@ class HomePage extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.circle,
             ),
-            child: Center(
+            child: ClipOval(
               child: Image.asset(
                 'assets/images/logo.png',
-                width: 30,
-                height: 30,
-                fit: BoxFit.contain,
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Icon(
                     Icons.directions_bus,
-                    size: 24,
+                    size: 28,
                     color: AppColors.primaryBlue,
                   );
                 },

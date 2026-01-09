@@ -36,16 +36,26 @@ class ReceiptContent extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
+                    width: 70,
+                    height: 70,
+                    decoration: const BoxDecoration(
                       color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Icons.directions_car,
-                      size: 35,
-                      color: AppColors.primaryOrange,
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: 70,
+                        height: 70,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Icon(
+                            Icons.directions_bus,
+                            size: 40,
+                            color: AppColors.primaryBlue,
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),

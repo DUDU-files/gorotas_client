@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
+import 'package:intl/intl.dart';
 
 class ChatCard extends StatefulWidget {
   final String name;
-  final double rating;
-  final int trips;
-  final String memberSince;
+  final String? lastMessage;
+  final DateTime? lastMessageTime;
+  final int unreadCount;
   final VoidCallback onTap;
   final bool isPinned;
   final Function(bool)? onPinnedChanged;
@@ -13,9 +14,9 @@ class ChatCard extends StatefulWidget {
   const ChatCard({
     super.key,
     required this.name,
-    required this.rating,
-    required this.trips,
-    required this.memberSince,
+    this.lastMessage,
+    this.lastMessageTime,
+    this.unreadCount = 0,
     required this.onTap,
     this.isPinned = false,
     this.onPinnedChanged,
@@ -39,6 +40,22 @@ class _ChatCardState extends State<ChatCard> {
       _isPinned = !_isPinned;
     });
     widget.onPinnedChanged?.call(_isPinned);
+  }
+
+  String _formatTime(DateTime? time) {
+    if (time == null) return '';
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final messageDate = DateTime(time.year, time.month, time.day);
+
+    if (messageDate == today) {
+      return DateFormat('HH:mm').format(time);
+    } else if (messageDate == today.subtract(const Duration(days: 1))) {
+      return 'Ontem';
+    } else {
+      return DateFormat('dd/MM').format(time);
+    }
   }
 
   @override
@@ -70,48 +87,83 @@ class _ChatCardState extends State<ChatCard> {
                 ),
               ),
               const SizedBox(width: 16),
-              // Informações do motorista
+              // Informações do chat
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (widget.lastMessageTime != null)
+                          Text(
+                            _formatTime(widget.lastMessageTime),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: widget.unreadCount > 0
+                                  ? AppColors.primaryOrange
+                                  : AppColors.white.withOpacity(0.7),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.star,
-                          size: 14,
-                          color: AppColors.starFilled,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${widget.rating} · ${widget.trips} viagens',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.white,
+                        Expanded(
+                          child: Text(
+                            widget.lastMessage ?? 'Nenhuma mensagem',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: widget.unreadCount > 0
+                                  ? AppColors.white
+                                  : AppColors.white.withOpacity(0.7),
+                              fontWeight: widget.unreadCount > 0
+                                  ? FontWeight.w500
+                                  : FontWeight.normal,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        if (widget.unreadCount > 0) ...[
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryOrange,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              widget.unreadCount.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Membro desde ${widget.memberSince}',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: AppColors.white,
-                      ),
                     ),
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
               // Botão de pin (fixar/desafixar)
               GestureDetector(
                 onTap: _togglePin,

@@ -3,7 +3,7 @@ import 'package:vans/colors/app_colors.dart';
 
 class ConfirmationButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double? width;
   final double? height;
   final double? fontSize;
@@ -13,7 +13,7 @@ class ConfirmationButton extends StatelessWidget {
   const ConfirmationButton({
     super.key,
     required this.label,
-    required this.onPressed,
+    this.onPressed,
     this.width,
     this.height,
     this.fontSize,

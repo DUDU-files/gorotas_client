@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "***REMOVED***",
+    "project_id": "gorotas-app",
+    "storage_bucket": "gorotas-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:***REMOVED***:android:da7e19c1351225e93f1dd3",
+        "android_client_info": {
+          "package_name": "com.example.descontino"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "***REMOVED***"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "***REMOVED***",
+        "android_client_info": {
+          "package_name": "com.example.vans"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "***REMOVED***"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

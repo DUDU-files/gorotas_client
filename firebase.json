@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"gorotas-app","appId":"***REMOVED***","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"gorotas-app","configurations":{"android":"***REMOVED***","ios":"***REMOVED***","macos":"***REMOVED***","web":"***REMOVED***","windows":"***REMOVED***"}}}}}}

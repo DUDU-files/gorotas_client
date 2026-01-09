@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/routes/app_routes.dart';
 import 'package:vans/screens/register.dart';
 import 'package:vans/screens/forgot_password.dart';
+import 'package:vans/providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,6 +26,33 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _handleLogin() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, preencha todos os campos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    String? error = await userProvider.login(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error), backgroundColor: Colors.red),
+      );
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,28 +66,22 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // Logo e Título
                 Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
+                  width: 100,
+                  height: 100,
+                  decoration: const BoxDecoration(
                     color: AppColors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
                   ),
-                  child: Center(
+                  child: ClipOval(
                     child: Image.asset(
                       'assets/images/logo.png',
-                      width: 60,
-                      height: 60,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.directions_bus,
-                          size: 50,
+                          size: 70,
                           color: AppColors.primaryBlue,
                         );
                       },
@@ -261,12 +284,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 24),
 
                       // Botão Entrar
-                      ConfirmationButton(
-                        label: 'Entrar',
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            AppRoutes.home,
+                      Consumer<UserProvider>(
+                        builder: (context, userProvider, child) {
+                          return ConfirmationButton(
+                            label: userProvider.isLoading
+                                ? 'Entrando...'
+                                : 'Entrar',
+                            onPressed: userProvider.isLoading
+                                ? null
+                                : _handleLogin,
                           );
                         },
                       ),

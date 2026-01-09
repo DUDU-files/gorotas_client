@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/providers/navigation_provider.dart';
+import 'package:vans/providers/route_provider.dart';
 
 class SearchContent extends StatefulWidget {
   const SearchContent({super.key});
@@ -15,14 +16,12 @@ class _SearchContentState extends State<SearchContent> {
   final _originController = TextEditingController();
   final _destinationController = TextEditingController();
   final _departureDateController = TextEditingController();
-  final _returnDateController = TextEditingController();
 
   @override
   void dispose() {
     _originController.dispose();
     _destinationController.dispose();
     _departureDateController.dispose();
-    _returnDateController.dispose();
     super.dispose();
   }
 
@@ -37,35 +36,25 @@ class _SearchContentState extends State<SearchContent> {
             child: Column(
               children: [
                 Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
+                  width: 100,
+                  height: 100,
+                  decoration: const BoxDecoration(
                     color: AppColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+                    shape: BoxShape.circle,
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: 70,
-                        height: 70,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.directions_bus,
-                            size: 50,
-                            color: AppColors.primaryBlue,
-                          );
-                        },
-                      ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.directions_bus,
+                          size: 70,
+                          color: AppColors.primaryBlue,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -226,62 +215,24 @@ class _SearchContentState extends State<SearchContent> {
                     }
                   },
                 ),
-                const SizedBox(height: 16),
-
-                // Campo: Dia da volta
-                Text(
-                  'Dia da volta:',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryGray,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _returnDateController,
-                  decoration: InputDecoration(
-                    hintText: '04/10/2025',
-                    hintStyle: TextStyle(
-                      color: AppColors.lightGray,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: AppColors.lightGray,
-                      size: 20,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? picked = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(2030),
-                    );
-                    if (picked != null) {
-                      _returnDateController.text =
-                          '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-                    }
-                  },
-                ),
                 const SizedBox(height: 24),
 
                 // Botão Buscar
                 ConfirmationButton(
                   label: 'Buscar',
                   onPressed: () {
+                    // Buscar rotas com os filtros
+                    final routeProvider = Provider.of<RouteProvider>(
+                      context,
+                      listen: false,
+                    );
+                    routeProvider.searchRoutes(
+                      origin: _originController.text.trim(),
+                      destination: _destinationController.text.trim(),
+                      date: _departureDateController.text.trim(),
+                    );
+
+                    // Navegar para resultados
                     final navProvider = Provider.of<NavigationProvider>(
                       context,
                       listen: false,
