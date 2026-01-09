@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:vans/screens/contents/profile_content.dart';
+import 'package:vans/screens/profile_edit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: ProfileContent());
+    return const Scaffold(body: ProfileEdit());
   }
 }

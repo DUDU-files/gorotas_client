@@ -5,14 +5,14 @@ import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/route_provider.dart';
 
-class SearchContent extends StatefulWidget {
-  const SearchContent({super.key});
+class Search extends StatefulWidget {
+  const Search({super.key});
 
   @override
-  State<SearchContent> createState() => _SearchContentState();
+  State<Search> createState() => _SearchState();
 }
 
-class _SearchContentState extends State<SearchContent> {
+class _SearchState extends State<Search> {
   final _originController = TextEditingController();
   final _destinationController = TextEditingController();
   final _departureDateController = TextEditingController();

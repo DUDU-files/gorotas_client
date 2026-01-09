@@ -4,16 +4,16 @@ import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/ticket_provider.dart';
 
-class RatingContent extends StatefulWidget {
+class Rating extends StatefulWidget {
   final Map<String, dynamic> data;
 
-  const RatingContent({super.key, required this.data});
+  const Rating({super.key, required this.data});
 
   @override
-  State<RatingContent> createState() => _RatingContentState();
+  State<Rating> createState() => _RatingState();
 }
 
-class _RatingContentState extends State<RatingContent> {
+class _RatingState extends State<Rating> {
   int _rating = 0;
   bool _isSubmitting = false;
   final TextEditingController _feedbackController = TextEditingController();

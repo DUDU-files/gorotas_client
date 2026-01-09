@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/user_provider.dart';
 
-class ProfileContent extends StatefulWidget {
-  const ProfileContent({super.key});
+class ProfileEdit extends StatefulWidget {
+  const ProfileEdit({super.key});
 
   @override
-  State<ProfileContent> createState() => _ProfileContentState();
+  State<ProfileEdit> createState() => _ProfileEditState();
 }
 
-class _ProfileContentState extends State<ProfileContent> {
+class _ProfileEditState extends State<ProfileEdit> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _emailController;

@@ -5,16 +5,16 @@ import 'package:vans/models/chat_model.dart';
 import 'package:vans/providers/chat_provider.dart';
 import 'package:vans/providers/user_provider.dart';
 
-class PrivateChatContent extends StatefulWidget {
+class PrivateChat extends StatefulWidget {
   final Map<String, dynamic> data;
 
-  const PrivateChatContent({super.key, required this.data});
+  const PrivateChat({super.key, required this.data});
 
   @override
-  State<PrivateChatContent> createState() => _PrivateChatContentState();
+  State<PrivateChat> createState() => _PrivateChatState();
 }
 
-class _PrivateChatContentState extends State<PrivateChatContent> {
+class _PrivateChatState extends State<PrivateChat> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 

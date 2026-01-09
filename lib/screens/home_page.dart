@@ -4,17 +4,17 @@ import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/widgets/navbar.dart';
 import 'package:vans/widgets/app_header.dart';
-import 'package:vans/screens/contents/search_content.dart';
-import 'package:vans/screens/contents/tickets_content.dart';
-import 'package:vans/screens/contents/chat_content.dart';
-import 'package:vans/screens/contents/menu_content.dart';
-import 'package:vans/screens/contents/results_content.dart';
-import 'package:vans/screens/contents/passage_details_content.dart';
-import 'package:vans/screens/contents/payment_content.dart';
-import 'package:vans/screens/contents/receipt_content.dart';
-import 'package:vans/screens/contents/rating_content.dart';
-import 'package:vans/screens/contents/private_chat_content.dart';
-import 'package:vans/screens/contents/profile_content.dart';
+import 'package:vans/screens/search.dart';
+import 'package:vans/screens/tickets.dart';
+import 'package:vans/screens/chat.dart';
+import 'package:vans/screens/menu.dart';
+import 'package:vans/screens/results.dart';
+import 'package:vans/screens/passage_details.dart';
+import 'package:vans/screens/payment.dart';
+import 'package:vans/screens/receipt.dart';
+import 'package:vans/screens/rating.dart';
+import 'package:vans/screens/private_chat.dart';
+import 'package:vans/screens/profile_edit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -68,27 +68,27 @@ class HomePage extends StatelessWidget {
   Widget _buildBody(NavigationProvider navProvider) {
     switch (navProvider.currentScreen) {
       case AppScreen.search:
-        return const SearchContent();
+        return const Search();
       case AppScreen.tickets:
-        return const TicketsContent();
+        return const Tickets();
       case AppScreen.chat:
-        return const ChatContent();
+        return const Chat();
       case AppScreen.menu:
-        return const MenuContent();
+        return const Menu();
       case AppScreen.results:
-        return const ResultsContent();
+        return const Results();
       case AppScreen.passageDetails:
-        return PassageDetailsContent(data: navProvider.screenData);
+        return PassageDetails(data: navProvider.screenData);
       case AppScreen.payment:
-        return PaymentContent(data: navProvider.screenData);
+        return Payment(data: navProvider.screenData);
       case AppScreen.receipt:
-        return ReceiptContent(data: navProvider.screenData);
+        return Receipt(data: navProvider.screenData);
       case AppScreen.rating:
-        return RatingContent(data: navProvider.screenData);
+        return Rating(data: navProvider.screenData);
       case AppScreen.privateChat:
-        return PrivateChatContent(data: navProvider.screenData);
+        return PrivateChat(data: navProvider.screenData);
       case AppScreen.profile:
-        return const ProfileContent();
+        return const ProfileEdit();
     }
   }
 

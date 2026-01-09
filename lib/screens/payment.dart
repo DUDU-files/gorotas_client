@@ -9,16 +9,16 @@ import 'package:vans/providers/ticket_provider.dart';
 import 'package:vans/providers/user_provider.dart';
 import 'package:intl/intl.dart';
 
-class PaymentContent extends StatefulWidget {
+class Payment extends StatefulWidget {
   final Map<String, dynamic> data;
 
-  const PaymentContent({super.key, required this.data});
+  const Payment({super.key, required this.data});
 
   @override
-  State<PaymentContent> createState() => _PaymentContentState();
+  State<Payment> createState() => _PaymentState();
 }
 
-class _PaymentContentState extends State<PaymentContent> {
+class _PaymentState extends State<Payment> {
   final double _walletBalance = 2000.00;
   bool _useWallet = false;
   bool _isProcessing = false;

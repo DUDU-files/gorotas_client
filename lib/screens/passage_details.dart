@@ -4,10 +4,10 @@ import 'package:vans/colors/app_colors.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/widgets/app_card.dart';
 
-class PassageDetailsContent extends StatelessWidget {
+class PassageDetails extends StatelessWidget {
   final Map<String, dynamic> data;
 
-  const PassageDetailsContent({super.key, required this.data});
+  const PassageDetails({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
