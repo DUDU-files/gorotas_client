@@ -103,9 +103,7 @@ class _ProfileContentState extends State<ProfileContent> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(16, 60, 16, 30),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryBlue,
-                  ),
+                  decoration: const BoxDecoration(color: AppColors.primaryBlue),
                   child: Column(
                     children: [
                       // Botão voltar e título
