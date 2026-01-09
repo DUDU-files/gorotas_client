@@ -11,94 +11,27 @@ class BottomMenu extends StatelessWidget {
     required this.onItemSelected,
   });
 
-  void _handleMenuTap(BuildContext context, int index) {
-    onItemSelected(index);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryBlue,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _MenuItem(
-            icon: Icons.search,
-            label: 'Buscar',
-            isSelected: currentIndex == 0,
-            onTap: () => _handleMenuTap(context, 0),
-          ),
-          _MenuItem(
-            icon: Icons.receipt,
-            label: 'Passagens',
-            isSelected: currentIndex == 1,
-            onTap: () => _handleMenuTap(context, 1),
-          ),
-          _MenuItem(
-            icon: Icons.chat_bubble_outline,
-            label: 'Conversas',
-            isSelected: currentIndex == 2,
-            onTap: () => _handleMenuTap(context, 2),
-          ),
-          _MenuItem(
-            icon: Icons.menu,
-            label: 'Menu',
-            isSelected: currentIndex == 3,
-            onTap: () => _handleMenuTap(context, 3),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MenuItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _MenuItem({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 12.0,
-              horizontal: 8.0,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  color: isSelected ? AppColors.white : Colors.white70,
-                  size: 24,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: isSelected ? AppColors.white : Colors.white70,
-                    fontSize: 11,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: onItemSelected,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: AppColors.primaryBlue,
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: Colors.white70,
+      selectedFontSize: 11,
+      unselectedFontSize: 11,
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
+        BottomNavigationBarItem(icon: Icon(Icons.receipt), label: 'Passagens'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble_outline),
+          label: 'Conversas',
         ),
-      ),
+        BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+      ],
     );
   }
 }
