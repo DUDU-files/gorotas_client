@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/confirmation_button.dart';
 import 'package:vans/widgets/app_text_field.dart';
+import 'package:vans/widgets/app_logo.dart';
 import 'package:vans/providers/navigation_provider.dart';
 import 'package:vans/providers/route_provider.dart';
 
@@ -32,44 +33,9 @@ class _SearchState extends State<Search> {
       child: Column(
         children: [
           // Logo e Título
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: Column(
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Icon(
-                          Icons.directions_bus,
-                          size: 70,
-                          color: AppColors.primaryBlue,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'GoRotas',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                ),
-              ],
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32.0),
+            child: AppLogo(size: 100, showSubtitle: false),
           ),
 
           // Card de Busca

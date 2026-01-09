@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vans/colors/app_colors.dart';
 import 'package:vans/widgets/app_text_field.dart';
+import 'package:vans/widgets/app_logo.dart';
 import 'package:vans/widgets/confirmation_button.dart';
+import 'package:vans/widgets/success_modal.dart';
 import 'package:vans/screens/login.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -21,72 +23,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _showSuccessModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Ícone de sucesso
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: AppColors.green,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.check, color: AppColors.white, size: 48),
-            ),
-            const SizedBox(height: 20),
-
-            // Título
-            const Text(
-              'Sucesso!',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.black,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Descrição
-            const Text(
-              'Solicitação de recuperação enviada.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: AppColors.primaryGray),
-            ),
-            const SizedBox(height: 24),
-
-            // Botão Voltar para o Login
-            SizedBox(
-              width: double.infinity,
-              child: ConfirmationButton(
-                label: 'Voltar para o Login',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 12),
-          ],
-        ),
-      ),
+    SuccessModal.show(
+      context,
+      description: 'Solicitação de recuperação enviada.',
+      buttonLabel: 'Voltar para o Login',
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      },
     );
   }
 
@@ -101,47 +47,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo e título - centralizado
-                Column(
-                  children: [
-                    Container(
-                      width: 90,
-                      height: 90,
-                      decoration: const BoxDecoration(
-                        color: AppColors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 90,
-                          height: 90,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
-                              Icons.directions_bus,
-                              size: 55,
-                              color: AppColors.primaryBlue,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'GoRotas',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Acesso para Clientes',
-                      style: TextStyle(fontSize: 12, color: AppColors.white),
-                    ),
-                  ],
-                ),
+                const AppLogo(),
 
                 const SizedBox(height: 40),
 
